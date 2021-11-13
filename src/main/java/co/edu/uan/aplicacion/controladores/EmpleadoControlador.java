@@ -44,15 +44,15 @@ public class EmpleadoControlador {
 	}
 	
 	@GetMapping
-	public List<Empleado> getEmpleado(@RequestParam  long cedula) {
+	public List<Empleado> getEmpleado(@RequestParam (required = false) String cedula) {
+		if(cedula == null) return empleados;
+		
 		for(Empleado empleado: empleados) {
-			if(empleado.getCedula() == cedula) {
-				List<Empleado> empleados;
-				empleados = Stream.of(empleado).collect(Collectors.toList());
-				return empleados;
+			if(empleado.getCedula() == Long.parseLong(cedula)) {
+				return Stream.of(empleado).collect(Collectors.toList());
 			}
 		}
-		return null;
+		return new ArrayList<Empleado>();
 	}
 	
 	@PostMapping
