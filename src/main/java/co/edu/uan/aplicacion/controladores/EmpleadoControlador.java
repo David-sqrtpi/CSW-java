@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uan.aplicacion.entidades.Empleado;
@@ -43,8 +44,15 @@ public class EmpleadoControlador {
 	}
 	
 	@GetMapping
-	public List<Empleado> getEmpleado() {
-		return empleados;
+	public List<Empleado> getEmpleado(@RequestParam  long cedula) {
+		for(Empleado empleado: empleados) {
+			if(empleado.getCedula() == cedula) {
+				List<Empleado> empleados;
+				empleados = Stream.of(empleado).collect(Collectors.toList());
+				return empleados;
+			}
+		}
+		return null;
 	}
 	
 	@PostMapping
