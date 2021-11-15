@@ -22,8 +22,8 @@ public class ServicioControlador {
 	@PostConstruct
 	public void init() {			
 		servicios = Stream.of(
-				new Servicio(0, "Staff"),
-				new Servicio(1, "Castilla")
+				new Servicio(0, "Gestión de riesgos"),
+				new Servicio(1, "Programación y planeación")
 		).collect(Collectors.toList());
 	}
 	
