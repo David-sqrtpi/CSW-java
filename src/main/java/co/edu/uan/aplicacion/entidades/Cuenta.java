@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public class Cuenta {
 	private long id;
-	private long id_rol;
+	private long idRol;
 	private String correo;
 	private String contrasena;
 	private String nombre;
