@@ -39,14 +39,11 @@ public class GerenciaControlador {
 		
 		ResultSet resultado = PS.getResultSet();
 		
-		Gerencia gerencia = new Gerencia();
-		
 		while(resultado.next()) {
 			long id = Long.parseLong(resultado.getString("id"));
 			String gerenciaColumna = resultado.getString("gerencia");
-			
-			gerencia.setId(id);
-			gerencia.setGerencia(gerenciaColumna);
+						
+			Gerencia gerencia = new Gerencia(id, gerenciaColumna);
 			
 			gerencias.add(gerencia);
 		}

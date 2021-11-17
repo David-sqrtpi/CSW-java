@@ -23,12 +23,10 @@ import conector.Conexion;
 @CrossOrigin
 @RestController
 @RequestMapping("/servicios")
-public class ServicioControlador {
-	public List<Servicio> servicios = new ArrayList<>();
-	
+public class ServicioControlador {	
 	@GetMapping
 	public List<Servicio> getServicios() throws SQLException {
-		servicios.clear();
+		List<Servicio> servicios = new ArrayList<>();
 		Conexion conexion = new Conexion();
 		
 		String sql = "SELECT * from servicio";
@@ -38,24 +36,17 @@ public class ServicioControlador {
 		
 		ResultSet resultado = PS.getResultSet();
 		
-		Servicio servicio = new Servicio();
+		
 		
 		while(resultado.next()) {
 			long id = Long.parseLong(resultado.getString("id"));
 			String servicioColumna = resultado.getString("servicio");
 			
-			servicio.setId(id);
-			servicio.setServicio(servicioColumna);
+			Servicio servicio = new Servicio(id, servicioColumna);
 			
 			servicios.add(servicio);
-			
-			System.out.println(servicio.toString());
 		}
-		
-		for(Servicio servicio1: servicios) {
-			System.out.println(servicio1.toString());
-		}
-		
+	
 		return servicios;
 	}
 }
