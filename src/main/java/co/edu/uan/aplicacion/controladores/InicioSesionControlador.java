@@ -2,8 +2,10 @@ package co.edu.uan.aplicacion.controladores;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,40 +21,31 @@ import co.edu.uan.aplicacion.entidades.Cuenta;
 import co.edu.uan.aplicacion.entidades.Empleado;
 import co.edu.uan.aplicacion.entidades.Gerencia;
 import co.edu.uan.aplicacion.entidades.InicioSesion;
+import conector.Conexion;
 
 @CrossOrigin
 @RestController
-@RequestMapping("login")
+@RequestMapping("/login")
 public class InicioSesionControlador {
 	PreparedStatement pst= null;
-	ResultSet rs=null;
-
-	public List<Cuenta> cuentas;
-	@PostConstruct
-	public void init() {
-		cuentas = Stream.of(
-				new Cuenta(1, 1, "admin@gmail.com","12345", "pepito"),
-				new Cuenta(1, 2, "gerente@gmail.com","12345", "pepe")
-		).collect(Collectors.toList());
-		
-	}
 	
 	@PostMapping
-	public long iniciarSesion(@RequestBody InicioSesion inicio)
+	public long iniciarSesion(@RequestBody InicioSesion inicio) throws SQLException
 	{
-		String sql = "select from cuenta where email = ? and contrasena = ?";
+		Conexion conexion = new Conexion();
 		String email = inicio.getEmail();
 		String key = inicio.getContrasena();
-		for(int i = 0;i<cuentas.size();i++) {
-			if(email.equals(cuentas.get(i).getCorreo())) {
-				if(key.equals(cuentas.get(i).getContrasena())) {
-					return cuentas.get(i).getId();
-				}else {
-					return -1;
-				}
-			}
-		}
+		String sql = "SELECT id_rol FROM empresa.cuenta where email='"+email+"'and contrasena='"+key+"';";
+		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
+		PS.execute();
+		
+		ResultSet rs = PS.getResultSet();
+		if(rs.next()) {
+			return Long.parseLong(rs.getString("id_rol"));
+		} 
 		return -1;
+		
+		
 	}
 	
 	
