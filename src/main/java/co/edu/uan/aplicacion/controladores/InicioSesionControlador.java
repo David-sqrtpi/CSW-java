@@ -28,7 +28,6 @@ import conector.Conexion;
 @RequestMapping("/login")
 public class InicioSesionControlador {
 	PreparedStatement pst= null;
-	ResultSet rs=null;
 	
 	@PostMapping
 	public long iniciarSesion(@RequestBody InicioSesion inicio) throws SQLException
@@ -38,11 +37,13 @@ public class InicioSesionControlador {
 		String key = inicio.getContrasena();
 		String sql = "SELECT id_rol FROM empresa.cuenta where email='"+email+"'and contrasena='"+key+"';";
 		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
-		if (conexion.resultado.next()) {
-			System.out.println("okey");
-		}
-		Long = Long.parseLong(PS.setString(1, sql);) 
-		return ;
+		PS.execute();
+		
+		ResultSet rs = PS.getResultSet();
+		if(rs.next()) {
+			return Long.parseLong(rs.getString("id_rol"));
+		} 
+		return -1;
 		
 		
 	}
