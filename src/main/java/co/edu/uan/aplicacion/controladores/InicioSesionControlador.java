@@ -41,8 +41,8 @@ public class InicioSesionControlador {
 		if (conexion.resultado.next()) {
 			System.out.println("okey");
 		}
-		Long = Long.parseLong(PS.setString(1, sql);) 
-		return ;
+				
+		return -1;
 		
 		
 	}

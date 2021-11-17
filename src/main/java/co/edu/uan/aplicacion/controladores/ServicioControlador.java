@@ -45,16 +45,14 @@ public class ServicioControlador {
 			String servicioColumna = resultado.getString("servicio");
 			
 			servicio.setId(id);
+			
 			servicio.setServicio(servicioColumna);
 			
 			servicios.add(servicio);
 			
 			System.out.println(servicio.toString());
 		}
-		
-		for(Servicio servicio1: servicios) {
-			System.out.println(servicio1.toString());
-		}
+
 		
 		return servicios;
 	}
