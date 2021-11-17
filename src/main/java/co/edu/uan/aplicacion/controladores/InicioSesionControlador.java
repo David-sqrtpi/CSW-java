@@ -25,7 +25,7 @@ import conector.Conexion;
 
 @CrossOrigin
 @RestController
-@RequestMapping("login")
+@RequestMapping("/login")
 public class InicioSesionControlador {
 	PreparedStatement pst= null;
 	ResultSet rs=null;
@@ -38,11 +38,11 @@ public class InicioSesionControlador {
 		String key = inicio.getContrasena();
 		String sql = "SELECT id_rol FROM empresa.cuenta where email='"+email+"'and contrasena='"+key+"';";
 		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
-		conexion.resultado = PS.executeQuery();
 		if (conexion.resultado.next()) {
 			System.out.println("okey");
 		}
-		return -1;
+		Long = Long.parseLong(PS.setString(1, sql);) 
+		return ;
 		
 		
 	}

@@ -12,16 +12,10 @@ import lombok.Setter;
 public class Servicio {
 	private long id;
 	private String servicio;
+	@Override
+	public String toString() {
+		return "Servicio [id=" + id + ", servicio=" + servicio + "]";
+	}
+	
+	
 }
-
-//Gerencias
-//Staff
-//Castilla
-//Gdt
-//CPO09
-
-//Servicios
-//Gestión de riesgos
-//Programación y planeación
-//Programación y control de proyectos 
-//Administrador

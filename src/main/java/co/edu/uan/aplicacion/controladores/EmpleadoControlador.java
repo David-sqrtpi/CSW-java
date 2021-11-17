@@ -1,5 +1,8 @@
 package co.edu.uan.aplicacion.controladores;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,52 +18,121 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uan.aplicacion.entidades.Empleado;
 import co.edu.uan.aplicacion.entidades.Gerencia;
 import co.edu.uan.aplicacion.entidades.Servicio;
+import conector.Conexion;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/empleados")
 public class EmpleadoControlador {
-	public List<Empleado> empleados;
-	public List<Servicio> servicios;
-	public List<Gerencia> gerencias;
-	
-	@PostConstruct
-	public void init() {
-		empleados = Stream.of(
-				new Empleado(0, 1, 1, "Empleado 1", 123, "F", LocalDate.of(2021, 11, 11)),
-				new Empleado(1, 1, 1, "Empleado 2", 234, "M", LocalDate.of(2021, 11, 11))
-		).collect(Collectors.toList());
-		
-		List<Gerencia> gerencias = Stream.of(
-				new Gerencia(0, "Gestión de riesgos"),
-				new Gerencia(1, "Programación y planificación")
-		).collect(Collectors.toList());
-	}
+	public List<Empleado> empleados = new ArrayList();
 	
 	@GetMapping
-	public List<Empleado> getEmpleado() {
+	public List<Empleado> getEmpleados() throws SQLException {
+		empleados.clear();
+		Conexion conexion = new Conexion();
+		
+		String sql = "SELECT * from empleado";
+		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
+		
+		PS.execute();
+		
+		ResultSet resultado = PS.getResultSet();
+		
+		Empleado empleado = new Empleado();
+				
+		while(resultado.next()) {
+			long cedula = Long.parseLong(resultado.getString("cedula"));
+			long servicio = Long.parseLong(resultado.getString("id_servicio"));
+			long gerencia = Long.parseLong(resultado.getString("id_gerencia"));
+			String nombre = resultado.getString("nombre");
+			long genero = Long.parseLong(resultado.getString("id_genero"));
+			LocalDate fecha = LocalDate.parse(resultado.getString("fecha_ingreso"));
+			
+			empleado.setCedula(cedula);
+			empleado.setIdServicio(servicio);
+			empleado.setIdGerencia(gerencia);
+			empleado.setNombre(nombre);
+			empleado.setGenero(genero);
+			empleado.setFechaIngreso(fecha);
+			
+			empleados.add(empleado);
+		}
+		
 		return empleados;
 	}
 	
-	@PostMapping
-	public void crearEmpleado(@RequestBody Empleado empleado) {
-		empleados.add(empleado);
+	@GetMapping("/{cedula}")
+	public Empleado getEmpleado(@PathVariable String cedula) throws SQLException {
+
+		Conexion conexion = new Conexion();
+		
+		String sql = "SELECT * from empleado where cedula = "+cedula+"";
+		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
+		
+		PS.execute();
+		
+		ResultSet resultado = PS.getResultSet();
+				
+		while(resultado.next()) {
+			Empleado empleado = new Empleado();
+			
+			long servicio = Long.parseLong(resultado.getString("id_servicio"));
+			long gerencia = Long.parseLong(resultado.getString("id_gerencia"));
+			String nombre = resultado.getString("nombre");
+			long genero = Long.parseLong(resultado.getString("id_genero"));
+			LocalDate fecha = LocalDate.parse(resultado.getString("fecha_ingreso"));
+			
+			empleado.setCedula(Long.parseLong(cedula));
+			empleado.setIdServicio(servicio);
+			empleado.setIdGerencia(gerencia);
+			empleado.setNombre(nombre);
+			empleado.setGenero(genero);
+			empleado.setFechaIngreso(fecha);
+			
+			return empleado;
+		}
+		
+		return null;
 	}
 	
-	@PutMapping("/{idEmpleado}")
-	public void actualizarEmpleado(@PathVariable long idEmpleado, @RequestBody Empleado empleado) {
+	@PutMapping("/{cedula}")
+	public Empleado modificarEmpleado(@RequestBody Empleado empleado, @PathVariable String cedula) throws SQLException {
+		Conexion conexion = new Conexion();
+		
+		String sql = "DELETE from empleado where cedula = "+cedula+"";
+		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
+		PS.execute();
+		
+		long servicio = empleado.getIdServicio();
+		long gerencia = empleado.getIdGerencia();
+		String nombre = empleado.getNombre();
+		long genero = empleado.getGenero();
+		LocalDate fecha = empleado.getFechaIngreso(); 
+		
+		sql = "INSERT into empleado(cedula, id_servicio, id_gerencia, nombre, id_genero, fecha_ingreso) values"
+				+ "("+cedula+", "+servicio+", "+gerencia+", '"+nombre+"', "+genero+", '"+fecha+"')";
+		PS = conexion.conectar().prepareStatement(sql);
+		
+		PS.execute();
+				
+		return empleado;
+	}
+	
+	@PutMapping
+	public void actualizarEmpleado(@RequestBody Empleado empleado) {
 		for (Empleado empleadoActual : empleados) {
-			if(empleadoActual.getId() == idEmpleado) {
+			if(true) {
 				empleados.remove(empleadoActual);
 				break;
 			}
 		}
-		empleado.setId(idEmpleado);
+
 		empleados.add(empleado);
 	}
 	

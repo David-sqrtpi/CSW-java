@@ -9,11 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Empleado {
-	private long id;
 	private long idServicio;
 	private long idGerencia;
 	private String nombre;
 	private long cedula;
-	private String genero;
+	private long genero;
 	private LocalDate fechaIngreso;
 }

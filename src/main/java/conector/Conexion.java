@@ -2,12 +2,20 @@ package conector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+<<<<<<< HEAD
 import java.sql.PreparedStatement;
+=======
+>>>>>>> f406ba25498a35bbdf0b533476897f2767b7e68c
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 
+<<<<<<< HEAD
 import com.mysql.cj.xdevapi.Statement;
+=======
+import com.mysql.cj.protocol.Resultset;
+import com.mysql.cj.xdevapi.Result;
+>>>>>>> f406ba25498a35bbdf0b533476897f2767b7e68c
 
 public class Conexion {
 	public static final String Controlador = "com.mysql.jdbc.Driver";
