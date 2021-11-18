@@ -101,10 +101,12 @@ public class EmpleadoControlador {
 		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
 		PS.execute();
 		
+		System.out.println(empleado.toString());
+		
 		long servicio = empleado.getIdServicio();
 		long gerencia = empleado.getIdGerencia();
 		String nombre = empleado.getNombre();
-		long genero = empleado.getGenero();
+		long genero = empleado.getIdGenero();
 		LocalDate fecha = empleado.getFechaIngreso(); 
 		
 		sql = "INSERT into empleado(cedula, id_servicio, id_gerencia, nombre, id_genero, fecha_ingreso) values"
@@ -124,7 +126,7 @@ public class EmpleadoControlador {
 		long servicio = empleado.getIdServicio();
 		long gerencia = empleado.getIdGerencia();
 		String nombre = empleado.getNombre();
-		long genero = empleado.getGenero();
+		long genero = empleado.getIdGenero();
 		LocalDate fecha = empleado.getFechaIngreso(); 
 		
 		String sql = "INSERT into empleado(cedula, id_servicio, id_gerencia, nombre, id_genero, fecha_ingreso) values"
