@@ -33,8 +33,10 @@ public class CrearcuentaControlador {
 		
 		String sql = "INSERT INTO `empresa`.`cuenta` (`id_rol`, `email`, `contrasena`, `nombre`) VALUES ('"+idRol+"', '"+email+"', '"+contrasena+"', '"+nombre+"');";
 		PreparedStatement PS = conexion.conectar().prepareStatement(sql);
+		
 	
 				PS.executeUpdate();
 	
 	}
 }
+
