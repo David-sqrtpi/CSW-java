@@ -13,6 +13,12 @@ public class Empleado {
 	private long idGerencia;
 	private String nombre;
 	private long cedula;
-	private long genero;
+	private long idGenero;
 	private LocalDate fechaIngreso;
+	
+	@Override
+	public String toString() {
+		return "Empleado [idServicio=" + idServicio + ", idGerencia=" + idGerencia + ", nombre=" + nombre + ", cedula="
+				+ cedula + ", genero=" + idGenero + ", fechaIngreso=" + fechaIngreso + "]";
+	}
 }
